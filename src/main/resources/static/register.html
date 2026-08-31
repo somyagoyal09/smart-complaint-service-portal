@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Smart Complaint Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+
+            <div class="logo-icon">
+                SC
+            </div>
+
+            <h1>Create Account</h1>
+
+            <p>
+                Register as a customer to manage your complaints.
+            </p>
+
+        </div>
+
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name *
+                </label>
+
+                <input
+                        type="text"
+                        id="name"
+                        class="form-control"
+                        placeholder="Enter your full name"
+                        required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address *
+                </label>
+
+                <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter your email address"
+                        required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                        type="tel"
+                        id="phone"
+                        class="form-control"
+                        placeholder="Enter your phone number">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password *
+                </label>
+
+                <input
+                        type="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Create a password"
+                        required>
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="btn btn-primary auth-button">
+
+                Create Account
+
+            </button>
+
+
+            <div
+                    id="registerMessage"
+                    class="message">
+            </div>
+
+        </form>
+
+
+        <div class="auth-footer">
+
+            <span>Already have an account?</span>
+
+            <a href="login.html">
+                Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const registerForm = document.getElementById("registerForm");
+
+    registerForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value;
+
+        const message = document.getElementById("registerMessage");
+
+        const userData = {
+            name: name,
+            email: email,
+            password: password,
+            phone: phone,
+            role: "CUSTOMER"
+        };
+
+        try {
+
+            const response = await fetch("/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (!response.ok) {
+                throw new Error("Registration failed.");
+            }
+
+            const result = await response.json();
+
+            message.textContent =
+                "Account created successfully. Please sign in.";
+
+            message.className = "message success";
+
+            registerForm.reset();
+
+        } catch (error) {
+
+            console.error("Registration error:", error);
+
+            message.textContent =
+                "Unable to create account. Please try again.";
+
+            message.className = "message error";
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

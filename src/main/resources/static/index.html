@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Complaint Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">SC</div>
+
+            <h2>
+                Smart <span>Complaint</span>
+            </h2>
+        </div>
+
+        <ul class="nav-menu">
+
+            <li>
+                <a href="#" class="active">
+                    <span class="nav-icon">⌂</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="#complaints">
+                    <span class="nav-icon">▤</span>
+                    My Complaints
+                </a>
+            </li>
+
+            <li>
+                <a href="#raiseComplaint">
+                    <span class="nav-icon">＋</span>
+                    Raise Complaint
+                </a>
+            </li>
+
+            <li>
+                <a href="#profile">
+                    <span class="nav-icon">◯</span>
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Header -->
+        <header class="top-header">
+
+            <div class="page-title">
+                Customer Dashboard
+            </div>
+
+            <div class="user-area">
+
+                <div class="user-avatar">
+                    C
+                </div>
+
+                <div class="user-info">
+
+                    <div class="user-name">
+                        Customer
+                    </div>
+
+                    <div class="user-role">
+                        Customer Account
+                    </div>
+
+                </div>
+
+                <button
+                        type="button"
+                        id="logoutButton"
+                        class="btn btn-secondary">
+                    Logout
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- Dashboard Content -->
+        <section class="content">
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+
+                <h1>
+                    Welcome to Smart Complaint Portal
+                </h1>
+
+                <p>
+                    Manage your complaints and track their progress from one place.
+                </p>
+
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+
+                <!-- Total Complaints -->
+                <div class="stat-card">
+
+                    <div class="stat-card-header">
+
+                        <div class="stat-title">
+                            Total Complaints
+                        </div>
+
+                        <div class="stat-icon">
+                            ▤
+                        </div>
+
+                    </div>
+
+                    <div
+                            class="stat-value"
+                            id="totalComplaints">
+                        0
+                    </div>
+
+                </div>
+
+
+                <!-- Open Complaints -->
+                <div class="stat-card">
+
+                    <div class="stat-card-header">
+
+                        <div class="stat-title">
+                            Open Complaints
+                        </div>
+
+                        <div class="stat-icon">
+                            ◷
+                        </div>
+
+                    </div>
+
+                    <div
+                            class="stat-value"
+                            id="openComplaints">
+                        0
+                    </div>
+
+                </div>
+
+
+                <!-- Resolved Complaints -->
+                <div class="stat-card">
+
+                    <div class="stat-card-header">
+
+                        <div class="stat-title">
+                            Resolved Complaints
+                        </div>
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <div
+                            class="stat-value"
+                            id="resolvedComplaints">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Complaint List -->
+            <div
+                    class="card"
+                    id="complaints">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>
+                            My Complaints
+                        </h2>
+
+                        <p>
+                            View your submitted complaints and their current status.
+                        </p>
+                    </div>
+
+                    <a
+                            href="#raiseComplaint"
+                            class="btn btn-primary">
+                        + New Complaint
+                    </a>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="complaint-table">
+
+                        <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Complaint</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="complaintTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- Space -->
+            <div style="height: 30px;"></div>
+
+
+            <!-- Raise Complaint -->
+            <div
+                    class="card form-card"
+                    id="raiseComplaint">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Raise a New Complaint
+                        </h2>
+
+                        <p>
+                            Submit your issue and our support team will assist you.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form id="complaintForm">
+
+                    <!-- Title -->
+                    <div class="form-group">
+
+                        <label for="title">
+                            Complaint Title *
+                        </label>
+
+                        <input
+                                type="text"
+                                id="title"
+                                class="form-control"
+                                placeholder="Enter complaint title"
+                                required>
+
+                    </div>
+
+
+                    <!-- Description -->
+                    <div class="form-group">
+
+                        <label for="description">
+                            Description *
+                        </label>
+
+                        <textarea
+                                id="description"
+                                class="form-control"
+                                placeholder="Describe your issue in detail"
+                                required></textarea>
+
+                    </div>
+
+
+                    <!-- Category -->
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <select
+                                id="category"
+                                class="form-control">
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option value="Technical">
+                                Technical Issue
+                            </option>
+
+                            <option value="Account">
+                                Account Issue
+                            </option>
+
+                            <option value="Service">
+                                Service Issue
+                            </option>
+
+                            <option value="Billing">
+                                Billing Issue
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Priority -->
+                    <div class="form-group">
+
+                        <label for="priority">
+                            Priority
+                        </label>
+
+                        <select
+                                id="priority"
+                                class="form-control">
+
+                            <option value="">
+                                Select priority
+                            </option>
+
+                            <option value="LOW">
+                                Low
+                            </option>
+
+                            <option value="MEDIUM">
+                                Medium
+                            </option>
+
+                            <option value="HIGH">
+                                High
+                            </option>
+
+                            <option value="URGENT">
+                                Urgent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Submit -->
+                    <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                        Submit Complaint
+
+                    </button>
+
+
+                    <!-- Message -->
+                    <div
+                            id="message"
+                            class="message">
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- Customer Profile -->
+            <div class="card" id="profile">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>
+                            My Profile
+                        </h2>
+
+                        <p>
+                            View your customer account information.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="profileName">
+                        Full Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="profileName"
+                            class="form-control"
+                            id="profileName"
+                            value=""
+
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="profileEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                            type="email"
+                            id="profileEmail"
+                            class="form-control"
+                            id="profileEmail"
+                            value=""
+
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="profilePhone">
+                        Phone Number
+                    </label>
+
+                    <input
+                            type="text"
+                            id="profilePhone"
+                            class="form-control"
+                            id="profilePhone"
+                            value=""
+
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="profileRole">
+                        Account Role
+                    </label>
+
+                    <input
+                            type="text"
+                            id="profileRole"
+                            class="form-control"
+                            id="profileRole"
+                            value=""
+
+                            readonly>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>

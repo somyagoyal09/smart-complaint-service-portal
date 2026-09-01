@@ -38,4 +38,10 @@ public class ComplaintController {
     public void deleteComplaint(@PathVariable Long id) {
         complaintService.deleteComplaint(id);
     }
+
+    // ---- Customer Dashboard: my complaints with live status + remarks ----
+    @GetMapping("/customer/{customerId}")
+    public List<Complaint> getMyComplaints(@PathVariable Long customerId) {
+        return complaintService.getComplaintsByCustomerId(customerId);
+    }
 }

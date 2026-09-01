@@ -3,5 +3,9 @@ package com.miet.complaintportal.repository;
 import com.miet.complaintportal.entity.Complaint;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
+    List<Complaint> findByAgentId(Long agentId);
+    List<Complaint> findByCustomerId(Long customerId);
 }

@@ -32,4 +32,9 @@ public class ComplaintService {
     public void deleteComplaint(Long id) {
         complaintRepository.deleteById(id);
     }
+
+    // ---- Customer Dashboard: complaints raised by this customer ----
+    public List<Complaint> getComplaintsByCustomerId(Long customerId) {
+        return complaintRepository.findByCustomerId(customerId);
+    }
 }

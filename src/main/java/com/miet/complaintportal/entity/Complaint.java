@@ -21,6 +21,8 @@ public class Complaint {
     private String status; // PENDING, IN_PROGRESS, RESOLVED, CLOSED
 
     private String priority; // LOW, MEDIUM, HIGH
+    @Column(length = 1000)
+    private String remarks;
 
     private LocalDateTime createdAt;
 
@@ -100,7 +102,13 @@ public class Complaint {
     public void setCustomer(User customer) {
         this.customer = customer;
     }
+    public String getRemarks() {
+        return remarks;
+    }
 
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
     public Agent getAgent() {
         return agent;
     }

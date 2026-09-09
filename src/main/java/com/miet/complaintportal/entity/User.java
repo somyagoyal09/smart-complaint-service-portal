@@ -1,6 +1,9 @@
 package com.miet.complaintportal.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -10,11 +13,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
     @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Password is required")
+    @Size(min = 4, message = "Password must be at least 4 characters")
     private String password;
 
     private String phone;

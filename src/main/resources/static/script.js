@@ -11,7 +11,20 @@ const API_BASE_URL = "/api/complaints";
 
 async function loadComplaints() {
     try {
-        const response = await fetch(API_BASE_URL);
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const customerId = loggedInUser ? loggedInUser.id : null;
+
+        const url = customerId
+            ? `${API_BASE_URL}/customer/${customerId}`
+            : API_BASE_URL;
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
 
         if (!response.ok) {
             throw new Error("Unable to fetch complaints.");
@@ -92,20 +105,25 @@ async function submitComplaint(event) {
       return;
   }
 
-  const complaintData = {
-      title: title,
-      description: description,
-      category: category || null,
-      priority: priority || null,
-      status: "OPEN"
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
-  };
+    const complaintData = {
+        title: title,
+        description: description,
+        category: category || null,
+        priority: priority || null,
+        status: "OPEN",
+        customer: loggedInUser ? { id: loggedInUser.id } : null
+    };
 
     try {
+        const token = localStorage.getItem("token");
+
         const response = await fetch(API_BASE_URL, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
             },
             body: JSON.stringify(complaintData)
         });

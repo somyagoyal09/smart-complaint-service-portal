@@ -4,6 +4,7 @@ import com.miet.complaintportal.entity.Complaint;
 import com.miet.complaintportal.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ComplaintController {
     private ComplaintService complaintService;
 
     @PostMapping
-    public Complaint createComplaint(@RequestBody Complaint complaint) {
+    public Complaint createComplaint(@Valid @RequestBody Complaint complaint) {
         return complaintService.createComplaint(complaint);
     }
 

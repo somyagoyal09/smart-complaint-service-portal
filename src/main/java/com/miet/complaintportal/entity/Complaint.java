@@ -2,6 +2,7 @@ package com.miet.complaintportal.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "complaints")
@@ -11,11 +12,14 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     private String title;
 
+    @NotBlank(message = "Description is required")
     @Column(length = 2000)
     private String description;
 
+    @NotBlank(message = "Category is required")
     private String category;
 
     private String status; // PENDING, IN_PROGRESS, RESOLVED, CLOSED

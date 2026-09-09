@@ -1,6 +1,8 @@
 package com.miet.complaintportal.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "agents")
@@ -10,13 +12,17 @@ public class Agent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
     @Column(unique = true, nullable = false)
     private String email;
 
     private String phone;
 
+    @NotBlank(message = "Department is required")
     private String department;
 
     private String status; // AVAILABLE, BUSY, OFFLINE

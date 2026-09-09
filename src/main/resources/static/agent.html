@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Dashboard | Smart Complaint Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">SC</div>
+            <h2>Smart <span>Complaint</span></h2>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#myComplaints" class="active"><span class="nav-icon">▤</span>My Complaints</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="top-header">
+            <div class="page-title">Agent Dashboard</div>
+            <div class="user-area">
+                <div class="user-avatar">A</div>
+                <div class="user-info">
+                    <div class="user-name" id="agentName">Agent</div>
+                    <div class="user-role">Support Agent</div>
+                </div>
+                <button type="button" id="logoutButton" class="btn btn-secondary">Logout</button>
+            </div>
+        </header>
+
+        <section class="content">
+
+            <div class="welcome-section">
+                <h1>Welcome, Agent</h1>
+                <p>View your assigned complaints, update their status, and add resolution remarks.</p>
+            </div>
+
+            <div class="card" id="myComplaints">
+                <div class="card-header">
+                    <div>
+                        <h2>My Assigned Complaints</h2>
+                        <p>Update status and add remarks as you work through each complaint.</p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="complaint-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="agentComplaintsBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="agentMessage" class="message"></div>
+            </div>
+
+        </section>
+    </main>
+</div>
+
+<script>
+
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+     <script>
+
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    function authHeaders() {
+        const token = localStorage.getItem("token");
+        return {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        };
+    }
+
+    if (!loggedInUser || loggedInUser.role !== "AGENT") {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("agentName").textContent = loggedInUser.name || "Agent";
+    }
+
+    // ... baaki code same rahega
+    if (!loggedInUser || loggedInUser.role !== "AGENT") {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("agentName").textContent = loggedInUser.name || "Agent";
+    }
+
+    async function loadMyComplaints() {
+        const response = await fetch(`/api/agents/${loggedInUser.email}/complaints`, {
+    headers: authHeaders()
+});
+        const complaints = await response.json();
+
+        const tbody = document.getElementById("agentComplaintsBody");
+        tbody.innerHTML = "";
+
+        if (complaints.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><h3>No complaints assigned</h3></td></tr>`;
+            return;
+        }
+
+        complaints.forEach(complaint => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>#${complaint.id}</td>
+                <td>${complaint.title || "Untitled"}</td>
+                <td>${complaint.description || ""}</td>
+                <td>
+                    <select id="statusSelect-${complaint.id}" class="form-control">
+                        <option value="PENDING" ${complaint.status === "PENDING" ? "selected" : ""}>Pending</option>
+                        <option value="IN_PROGRESS" ${complaint.status === "IN_PROGRESS" ? "selected" : ""}>In Progress</option>
+                        <option value="RESOLVED" ${complaint.status === "RESOLVED" ? "selected" : ""}>Resolved</option>
+                        <option value="CLOSED" ${complaint.status === "CLOSED" ? "selected" : ""}>Closed</option>
+                    </select>
+                    <button class="btn btn-primary" style="margin-top:8px;" onclick="updateStatus(${complaint.id})">Update</button>
+                </td>
+                <td>
+                    <textarea id="remarksInput-${complaint.id}" class="form-control" placeholder="Add remarks">${complaint.remarks || ""}</textarea>
+                    <button class="btn btn-secondary" style="margin-top:8px;" onclick="saveRemarks(${complaint.id})">Save Remarks</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" onclick="closeComplaint(${complaint.id})">Close</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function showAgentMessage(text, type) {
+        const el = document.getElementById("agentMessage");
+        el.textContent = text;
+        el.className = `message ${type}`;
+        setTimeout(() => {
+            el.className = "message";
+            el.textContent = "";
+        }, 3000);
+    }
+
+    async function updateStatus(complaintId) {
+        const select = document.getElementById(`statusSelect-${complaintId}`);
+        const status = select.value;
+
+        try {
+            const response = await fetch(`/api/agents/complaints/${complaintId}/status`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify({ status: status })
+});
+
+            if (!response.ok) throw new Error();
+
+            showAgentMessage(`Complaint #${complaintId} status updated.`, "success");
+            loadMyComplaints();
+
+        } catch (error) {
+            showAgentMessage("Unable to update status.", "error");
+        }
+    }
+
+    async function saveRemarks(complaintId) {
+        const textarea = document.getElementById(`remarksInput-${complaintId}`);
+        const remarks = textarea.value;
+
+        try {
+            const response = await fetch(`/api/agents/complaints/${complaintId}/remarks`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify({ remarks: remarks })
+});
+
+            if (!response.ok) throw new Error();
+
+            showAgentMessage(`Remarks saved for complaint #${complaintId}.`, "success");
+
+        } catch (error) {
+            showAgentMessage("Unable to save remarks.", "error");
+        }
+    }
+
+    async function closeComplaint(complaintId) {
+        if (!confirm("Close this complaint?")) return;
+
+        try {
+            const response = await fetch(`/api/agents/complaints/${complaintId}/close`, {
+    method: "PUT",
+    headers: authHeaders()
+});
+
+            if (!response.ok) throw new Error();
+
+            showAgentMessage(`Complaint #${complaintId} closed.`, "success");
+            loadMyComplaints();
+
+        } catch (error) {
+            showAgentMessage("Unable to close complaint.", "error");
+        }
+    }
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+    });
+
+    loadMyComplaints();
+
+</script>
+
+</body>
+</html>

@@ -129,20 +129,29 @@
                 throw new Error("Invalid email or password.");
             }
 
-            const user = await response.json();
+            const result = await response.json();
 
-            if (!user) {
-                throw new Error("Invalid email or password.");
-            }
+if (!result || !result.token) {
+    throw new Error("Invalid email or password.");
+}
 
-            localStorage.setItem("loggedInUser", JSON.stringify(user));
+localStorage.setItem("token", result.token);
+localStorage.setItem("loggedInUser", JSON.stringify(result.user));
 
             message.textContent = "Login successful. Redirecting...";
 
             message.className = "message success";
 
+            let redirectPage = "index.html";
+
+            if (result.user.role === "ADMIN") {
+    redirectPage = "admin.html";
+} else if (result.user.role === "AGENT") {
+    redirectPage = "agent.html";
+}
+
             setTimeout(() => {
-                window.location.href = "index.html";
+                window.location.href = redirectPage;
             }, 1000);
 
         } catch (error) {

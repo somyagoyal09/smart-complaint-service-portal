@@ -5,6 +5,7 @@ import com.miet.complaintportal.entity.Complaint;
 import com.miet.complaintportal.service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class AgentController {
     private AgentService agentService;
 
     @PostMapping
-    public Agent createAgent(@RequestBody Agent agent) {
+    public Agent createAgent(@Valid @RequestBody Agent agent) {
         return agentService.createAgent(agent);
     }
 

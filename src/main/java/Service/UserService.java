@@ -3,6 +3,7 @@ package com.miet.complaintportal.service;
 import com.miet.complaintportal.entity.User;
 import com.miet.complaintportal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +13,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User createUser(User user) {
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
         return userRepository.save(user);
     }
 
@@ -28,13 +33,12 @@ public class UserService {
 
         User user = userRepository.findByEmail(email);
 
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
 
         return null;
     }
-
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }

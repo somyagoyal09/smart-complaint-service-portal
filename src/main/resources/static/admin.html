@@ -116,6 +116,14 @@
                     </div>
                 </div>
 
+                <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center;">
+                    <input type="text" id="newAgentName" class="form-control" placeholder="Agent Name" style="max-width:200px;">
+                    <input type="email" id="newAgentEmail" class="form-control" placeholder="Agent Email" style="max-width:220px;">
+                    <input type="password" id="newAgentPassword" class="form-control" placeholder="Password" style="max-width:160px;">
+                    <button class="btn btn-primary" onclick="addAgent()">Add Agent</button>
+                </div>
+                <div id="addAgentMessage" class="message"></div>
+
                 <div class="table-container">
                     <table class="complaint-table">
                         <thead>
@@ -222,7 +230,7 @@ if (!loggedInUser || loggedInUser.role !== "ADMIN") {
         });
     }
 
-    async function deleteUser(userId) {
+        async function deleteUser(userId) {
         if (!confirm("Are you sure you want to delete this user?")) {
             return;
         }
@@ -232,6 +240,65 @@ if (!loggedInUser || loggedInUser.role !== "ADMIN") {
 });
         loadUsers();
         loadDashboardStats();
+    }
+
+        async function addAgent() {
+        const name = document.getElementById("newAgentName").value.trim();
+        const email = document.getElementById("newAgentEmail").value.trim();
+        const password = document.getElementById("newAgentPassword").value.trim();
+
+        const messageEl = document.getElementById("addAgentMessage");
+
+        if (!name || !email || !password) {
+            messageEl.textContent = "Please fill all fields.";
+            messageEl.className = "message error";
+            return;
+        }
+
+        try {
+            const userResponse = await fetch("/api/users", {
+                method: "POST",
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password,
+                    phone: "0000000000",
+                    role: "AGENT"
+                })
+            });
+
+            if (!userResponse.ok) throw new Error();
+
+            const agentResponse = await fetch("/api/agents", {
+                method: "POST",
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: "0000000000",
+                    department: "General",
+                    status: "AVAILABLE"
+                })
+            });
+
+            if (!agentResponse.ok) throw new Error();
+
+            messageEl.textContent = `Agent "${name}" added successfully.`;
+            messageEl.className = "message success";
+
+            document.getElementById("newAgentName").value = "";
+            document.getElementById("newAgentEmail").value = "";
+            document.getElementById("newAgentPassword").value = "";
+
+            loadUsers();
+            loadAgents();
+            loadDashboardStats();
+
+        } catch (error) {
+            messageEl.textContent = "Unable to add agent. Email may already be in use.";
+            messageEl.className = "message error";
+        }
     }
 
     async function loadAgents() {

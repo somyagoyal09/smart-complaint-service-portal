@@ -1,6 +1,5 @@
 package com.miet.complaintportal.config;
 
-import com.miet.complaintportal.security.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.miet.complaintportal.security.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,10 +31,12 @@ public class SecurityConfig {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Frontend pages + register/login khule rahenge (bina login)
-                        .requestMatchers("/", "/*.html", "/*.css", "/*.js", "/css/**", "/js/**", "/images/**").permitAll()
+                       .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/admin.html", "/agent.html", "/style.css", "/script.js").permitAll()
                         .requestMatchers("/api/users/login").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/users").permitAll()
 

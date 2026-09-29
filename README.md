@@ -1,6 +1,6 @@
 <div align="center">
 
-Smart Complaint & Service Management Portal
+# Smart Complaint & Service Management Portal
 
 <p>
   <img src="https://img.shields.io/badge/Java-21-ED8B00?style=flat-square&logo=openjdk&logoColor=white" />
@@ -13,18 +13,20 @@ Smart Complaint & Service Management Portal
   <img src="https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white" />
 </p>
 
-Smart Complaint & Service Management
+### Smart Complaint & Service Management
 
-From complaint registration to resolution.
+**From complaint registration to resolution.**
 
 A full-stack web application that connects customers, engineers and administrators
 through a centralized complaint registration, assignment, tracking and resolution workflow.
 
 </div>
 
-💡 What is Smart Complaint & Service Management Portal?
+---
 
-Smart Complaint & Service Management Portal is a full-stack complaint and
+## 💡 What is Smart Complaint & Service Management Portal?
+
+**Smart Complaint & Service Management Portal** is a full-stack complaint and
 service management application developed using Java and Spring Boot.
 
 The system provides a centralized platform where customers can register and
@@ -36,55 +38,38 @@ The application implements a structured complaint lifecycle with
 role-based access control, JWT-secured REST APIs, file attachments,
 complaint conversations and administrative analytics.
 
-✨ Key Features
+---
 
-Complaint Registration — Customers can raise complaints with title, description, category and priority.
+## ✨ Key Features
 
-Complaint Tracking — Customers can view their complaints and monitor their current status.
+- **Complaint Registration** — Customers can raise complaints with title, description, category and priority.
+- **Complaint Tracking** — Customers can view their complaints and monitor their current status.
+- **Engineer Assignment** — Administrators can assign complaints to engineers.
+- **Complaint Lifecycle** — Complaints move through `OPEN → IN_PROGRESS → RESOLVED → CLOSED`.
+- **Role-Based Access Control** — Separate access and operations for Customers, Engineers and Admins.
+- **JWT Authentication** — Stateless authentication using JSON Web Tokens.
+- **Secure Password Storage** — Passwords are stored using BCrypt password hashing.
+- **Complaint Conversations** — Customers and engineers can communicate through complaint-specific comments.
+- **File Attachments** — Complaint-related files can be uploaded and downloaded through secured endpoints.
+- **Admin Analytics** — Administrators can view complaint statistics and service activity.
+- **REST APIs** — Application functionality is exposed through RESTful endpoints.
+- **Swagger / OpenAPI** — Interactive API documentation for exploring and testing endpoints.
+- **Validation & Exception Handling** — Request validation and centralized exception handling for API errors.
+- **Unit Testing** — Service-layer and application-context tests are included.
 
-Engineer Assignment — Administrators can assign complaints to engineers.
+---
 
-Complaint Lifecycle — Complaints move through OPEN → IN_PROGRESS → RESOLVED → CLOSED.
+## 👥 User Roles
 
-Role-Based Access Control — Separate access and operations for Customers, Engineers and Admins.
+| Role | Capabilities |
+|------|-------------|
+| **Customer** | Register, login, raise complaints, view own complaints, upload attachments, communicate with engineers, close or reopen eligible complaints |
+| **Engineer** | View assigned complaints, start work, update complaint status, resolve complaints and communicate with customers |
+| **Admin** | View complaints, assign engineers, manage complaint status and view analytics |
 
-JWT Authentication — Stateless authentication using JSON Web Tokens.
+---
 
-Secure Password Storage — Passwords are stored using BCrypt password hashing.
-
-Complaint Conversations — Customers and engineers can communicate through complaint-specific comments.
-
-File Attachments — Complaint-related files can be uploaded and downloaded through secured endpoints.
-
-Admin Analytics — Administrators can view complaint statistics and service activity.
-
-REST APIs — Application functionality is exposed through RESTful endpoints.
-
-Swagger / OpenAPI — Interactive API documentation for exploring and testing endpoints.
-
-Validation & Exception Handling — Request validation and centralized exception handling for API errors.
-
-Unit Testing — Service-layer and application-context tests are included.
-
-👥 User Roles
-
-Role
-
-Capabilities
-
-Customer
-
-Register, login, raise complaints, view own complaints, upload attachments, communicate with engineers, close or reopen eligible complaints
-
-Engineer
-
-View assigned complaints, start work, update complaint status, resolve complaints and communicate with customers
-
-Admin
-
-View complaints, assign engineers, manage complaint status and view analytics
-
-🔄 Complaint Lifecycle
+## 🔄 Complaint Lifecycle
 
 <pre>
                          CUSTOMER
@@ -121,15 +106,17 @@ View complaints, assign engineers, manage complaint status and view analytics
 The complaint state transitions are validated in the backend to prevent
 invalid status changes.
 
-🖼️ Screenshots
+---
 
-Login
+## 🖼️ Screenshots
+
+### Login
 
 <p align="center">
   <img src="docs/screenshots/login.png" alt="Smart Complaint Portal Login" width="100%"/>
 </p>
 
-Customer Dashboard
+### Customer Dashboard
 
 <p align="center">
   <img src="docs/screenshots/customer-dashboard.png" alt="Customer Dashboard" width="100%"/>
@@ -138,19 +125,19 @@ Customer Dashboard
 <details>
 <summary><strong>View More Screenshots</strong></summary>
 
-Raise a New Complaint
+### Raise a New Complaint
 
 <p align="center">
   <img src="docs/screenshots/raise-complaint.png" alt="Raise New Complaint" width="100%"/>
 </p>
 
-My Complaints
+### My Complaints
 
 <p align="center">
   <img src="docs/screenshots/my-complaints.png" alt="My Complaints" width="100%"/>
 </p>
 
-Customer Profile
+### Customer Profile
 
 <p align="center">
   <img src="docs/screenshots/profile.png" alt="Customer Profile" width="100%"/>
@@ -158,7 +145,9 @@ Customer Profile
 
 </details>
 
-🏗️ Architecture Overview
+---
+
+## 🏗️ Architecture Overview
 
 <pre>
                          SMART COMPLAINT PORTAL
@@ -191,10 +180,12 @@ Customer Profile
                                                               Attachments
 </pre>
 
-🔐 Security Architecture
+---
 
-The application uses Spring Security with stateless JWT-based
-authentication and role-based authorization.
+## 🔐 Security Architecture
+
+The application uses **Spring Security** with stateless **JWT-based
+authentication** and role-based authorization.
 
 <pre>
 User Login
@@ -227,83 +218,38 @@ Role-Based Authorization
 
 Security features include:
 
-Stateless JWT authentication
+- Stateless JWT authentication
+- BCrypt password hashing
+- Method-level authorization using Spring Security
+- Customer ownership checks
+- Engineer assignment-based access
+- Protected REST endpoints
+- Environment-based configuration for database and JWT secrets
 
-BCrypt password hashing
+---
 
-Method-level authorization using Spring Security
+## 🧩 Technology Stack
 
-Customer ownership checks
+| Layer | Technology |
+|-------|-----------|
+| Programming Language | Java 21 |
+| Backend Framework | Spring Boot 3.4.1 |
+| Web / REST | Spring Web |
+| Security | Spring Security |
+| Authentication | JWT |
+| Persistence | Spring Data JPA |
+| ORM | Hibernate |
+| Database | MySQL |
+| Validation | Jakarta Bean Validation |
+| API Documentation | SpringDoc OpenAPI / Swagger UI |
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Build Tool | Maven |
+| Testing | JUnit / Spring Boot Test |
+| Utility | Lombok |
 
-Engineer assignment-based access
+---
 
-Protected REST endpoints
-
-Environment-based configuration for database and JWT secrets
-
-🧩 Technology Stack
-
-Layer
-
-Technology
-
-Programming Language
-
-Java 21
-
-Backend Framework
-
-Spring Boot 3.4.1
-
-Web / REST
-
-Spring Web
-
-Security
-
-Spring Security
-
-Authentication
-
-JWT
-
-Persistence
-
-Spring Data JPA
-
-ORM
-
-Hibernate
-
-Database
-
-MySQL
-
-Validation
-
-Jakarta Bean Validation
-
-API Documentation
-
-SpringDoc OpenAPI / Swagger UI
-
-Frontend
-
-HTML5, CSS3, Vanilla JavaScript
-
-Build Tool
-
-Maven
-
-Testing
-
-JUnit / Spring Boot Test
-
-Utility
-
-Lombok
-
-📁 Directory Layout
+## 📁 Directory Layout
 
 <pre>
 Smart-Complaint-Service-Management-Portal/
@@ -318,7 +264,7 @@ Smart-Complaint-Service-Management-Portal/
 │   │   ├── config/
 │   │   │   ├── DataInitializer.java     # Demo data initialization
 │   │   │   ├── SecurityConfig.java      # Spring Security configuration
-│   │   │   └── openApiConfig.java        # OpenAPI configuration
+│   │   │   └── openApiConfig.java       # OpenAPI configuration
 │   │   │
 │   │   ├── controller/
 │   │   │   ├── AuthController.java
@@ -359,175 +305,21 @@ Smart-Complaint-Service-Management-Portal/
 └── README.md
 </pre>
 
-⚙️ Setup & Installation
+---
 
-Prerequisites
+## ⚙️ Setup & Installation
+
+### Prerequisites
 
 Install the following before running the project:
 
-Java 21
+- **Java 21**
+- **MySQL 8+**
+- **Maven 3.9+** or use the included Maven Wrapper
 
-MySQL 8+
-
-Maven 3.9+ or use the included Maven Wrapper
-
-🔧 Configure MySQL
+### 🔧 Configure MySQL
 
 Create the database:
 
+```sql
 CREATE DATABASE smart_complaint_db;
-
-The application reads database configuration from environment variables:
-
-DB_URL=jdbc:mysql://localhost:3306/smart_complaint_db
-DB_USERNAME=root
-DB_PASSWORD=your_mysql_password
-JWT_SECRET=your_secure_random_secret
-
-Security: Do not commit database passwords, JWT secrets or other
-private credentials to GitHub.
-
-📥 Clone the Repository
-
-git clone <repository-url>
-cd Smart-Complaint-Service-Management-Portal
-
-▶️ Run the Application
-
-Using Maven Wrapper on Windows:
-
-mvnw.cmd spring-boot:run
-
-On Linux/macOS:
-
-./mvnw spring-boot:run
-
-The application runs locally on port 8080.
-
-📖 API Documentation
-
-After starting the application, Swagger UI is available through:
-
-/swagger-ui/index.html
-
-The OpenAPI specification is available through:
-
-/v3/api-docs
-
-🧪 Testing
-
-The project includes Spring Boot and service-layer tests.
-
-Run the complete test suite using:
-
-mvnw.cmd test
-
-or:
-
-./mvnw test
-
-🔌 REST API
-
-The application exposes REST endpoints for:
-
-Authentication
-
-User management
-
-Complaint creation and retrieval
-
-Complaint assignment
-
-Complaint status updates
-
-Complaint comments
-
-File attachments
-
-Complaint analytics
-
-The REST layer follows the flow:
-
-<pre>
-Frontend
-   │
-   │ HTTP Request
-   ▼
-REST Controller
-   │
-   ▼
-Service Layer
-   │
-   ▼
-Repository Layer
-   │
-   ▼
-MySQL Database
-   │
-   ▼
-HTTP Response
-   │
-   ▼
-Frontend
-</pre>
-
-🛡️ Data & Access Control
-
-The application applies access rules according to the authenticated user's role.
-
-Customer
-
-Customers can access their own complaint information and perform
-customer-specific complaint operations.
-
-Engineer
-
-Engineers can access complaints assigned to them and perform the
-operations allowed for their assigned work.
-
-Admin
-
-Administrators have broader access for complaint management, engineer
-assignment and analytics.
-
-🎓 Wipro TalentNext Project
-
-This project was developed as part of the Wipro TalentNext 2026–27
-training project.
-
-The assigned project objective is to develop a web-based Smart Complaint
-& Service Management Portal that automates complaint registration,
-service-request tracking, employee assignment and status monitoring.
-
-The implementation provides:
-
-Customer complaint registration
-
-Complaint tracking and history
-
-Engineer assignment
-
-Complaint status management
-
-Administrative monitoring
-
-REST API integration
-
-Role-based access control
-
-Centralized complaint management
-
-The project follows a layered backend architecture and includes exception
-handling, validation, security and testing practices.
-
-🔗 Project Links
-
-💻 GitHub Repository: This repository
-
-📖 API Documentation: Available locally through Swagger UI after starting the application.
-
-<div align="center">
-
-Smart Complaint & Service Management Portal — From complaint registration to resolution.
-
-</div>
